@@ -60,6 +60,19 @@ def login_user():
         
     return redirect("/")
 
+@app.route("/check-reservations")
+def check_reservations():
+    date = request.args.get('date')
+    print(date)
+    user_id = crud.get_user_id(session["username"])
+    reservations = crud.get_all_res_by_date(date=date, user_id=user_id)
+    print(reservations)
+    if reservations: 
+        status = "not_available"
+    else: 
+        status = "available"
+    return {"data": status}
+
 @app.route("/create-reservation", methods=['POST'])
 def create_reservation():
     date = request.json.get('date')

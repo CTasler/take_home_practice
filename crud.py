@@ -23,9 +23,8 @@ def create_res(user_id, res_date, res_time):
     db.session.commit()
     return res
     
-    
-def get_all_res_by_date(date): 
-    reservations = Reservation.query.filter(Reservation.res_date == date).all()
+def get_all_res_by_date(date, user_id): 
+    reservations = Reservation.query.filter((Reservation.res_date == date) & (Reservation.user_id == user_id)).all()
     return reservations
 
 def get_all_user_res(user_id): 

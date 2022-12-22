@@ -7,15 +7,12 @@ function Result(props) {
             fetch('/get-username')
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log(responseJson)
                 const username = responseJson.username;
-                console.log(username)
                 if (username) {
                     const reservation = {
                         date: date,
                         time: props.time, 
                     }
-                    console.log(reservation)
         
                     fetch('/create-reservation', {
                         method: 'POST',
@@ -59,32 +56,43 @@ function SearchForm() {
     const [times, setTimes] = React.useState([])
 
     const submitHandler = (event) => {
-    event.preventDefault();
-    console.log(data)
-    const start = document.querySelector('#start').value
-    const end = document.querySelector('#end').value
-    
-    if (start > end) {
-        alert('start time must be before end time')
-    } else {
-        fetch('/results', {
-            method: 'POST',
-            body: JSON.stringify(data),
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        }) 
-        .then((response) => response.json())
-        .then((responseJson) => {
-            const resTimes = responseJson.data;
-            console.log(resTimes)
-            if (resTimes) {
-                alert('There are no results matching that search.')
-            } else {
-                setTimes(resTimes)
-            }
-        })
+        event.preventDefault();
+        console.log(data)
+        const start = document.querySelector('#start').value
+        const end = document.querySelector('#end').value
+        
+        if (start > end) {
+            alert('The start time must be before the end time.')
+        } else {
+            const date = document.querySelector('#date').value;
+            fetch(`/check-reservations?date=${date}`)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                console.log(responseJson)
+                console.log(responseJson.data)
+                if (responseJson.data == "not_available") {
+                    alert('You have already made a reservation on that day. Please choose a different date.')
+                } else {
+                    fetch('/results', {
+                        method: 'POST',
+                        body: JSON.stringify(data),
+                        credentials: 'include',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        }
+                    }) 
+                    .then((response) => response.json())
+                    .then((responseJson) => {
+                        const resTimes = responseJson.data;
+                        console.log(resTimes)
+                        if (resTimes.length == 0) {
+                            alert('There are no results matching that search.')
+                        } else {
+                            setTimes(resTimes)
+                        }
+                    })
+                }
+            })   
         };
     }
 
