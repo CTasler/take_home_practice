@@ -19,8 +19,8 @@ class Reservation(db.Model):
     
     res_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
-    res_date = db.Column(db.Date, nullable=False)
-    res_time = db.Column(db.Time, nullable=False)
+    res_date = db.Column(db.String(), nullable=False)
+    res_time = db.Column(db.String(), nullable=False)
     
     user = db.relationship("User", back_populates="reservation")
     

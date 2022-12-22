@@ -19,6 +19,18 @@ def get_user_id(username):
 def create_res(user_id, res_date, res_time): 
     res = Reservation(user_id=user_id, res_date=res_date, res_time=res_time)
     
+    db.session.add(res)
+    db.session.commit()
+    return res
+    
+    
+def get_all_res_by_date(date): 
+    reservations = Reservation.query.filter(Reservation.res_date == date).all()
+    return reservations
+
+def get_all_user_res(user_id): 
+    reservations = Reservation.query.filter(Reservation.user_id == user_id).all()
+    return reservations
 
 if __name__ == "__main__": 
     from server import app 

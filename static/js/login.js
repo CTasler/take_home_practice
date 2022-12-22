@@ -16,7 +16,7 @@ const submitHandler = (event) => {
             }
         })
         .then((response) => window.location.replace(response.url))
-        
+
     } else {
         alert("Username is required")
     }
