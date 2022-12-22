@@ -36,6 +36,19 @@
     {% block head %}{% endblock %}
   </head>
   <body>
+    <div>
+      <nav class="navbar bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/">Melon Tasting Reservations</a>
+          <a href="/login-page">
+            <button type="button" class="btn btn-outline-success">Login</button>
+          </a>
+          <a href="/view-reservations">
+          <button id="view" class="btn btn-outline-success"type="button">View Reservations</button>
+          </a>
+        </div>
+      </nav>
+    </div>
     {% block body %}{% endblock %}
     {% block after_body %}{% endblock %}
   </body>

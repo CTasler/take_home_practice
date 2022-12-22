@@ -78,6 +78,23 @@ def create_reservation():
     crud.create_res(user_id=user_id, res_date=date, res_time=time)
     return jsonify({'result': "successful"})
 
+@app.route("/view-reservations")
+def show_user_page():
+    return render_template("view-reservations.html")
+
+@app.route("/get-user-reservations")
+def show_all_reservations():
+    user_id = crud.get_user_id(session["username"])
+    reservations = crud.get_all_user_res(user_id=user_id)
+    reservs = []
+    for reservation in reservations:
+        data = {
+            "date": reservation.res_date, 
+            "time": reservation.res_time
+        }
+        reservs.append(data)
+    return jsonify({"user_reservs": reservs})
+
 
 if __name__ == "__main__":
     from model import connect_to_db

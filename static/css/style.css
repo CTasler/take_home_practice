@@ -5,6 +5,8 @@ h1 {
 .flex-cont {
     display: flex;
     margin-top: 20px;
+    align-items: center;
+    justify-content: center;
 }
 
 
@@ -24,4 +26,17 @@ label {
 
 body {
     text-align: center;
+}
+
+.user-dates {
+    margin: 10px;
+}
+
+.user-times {
+    margin: 10px;
+}
+
+.green {
+    background-color: green;
+    color: white;
 }
