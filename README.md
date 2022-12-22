@@ -1,6 +1,6 @@
 # Melon Tasting Reservations 
 
-Deployed at: 
+Deployed at: http://18.117.146.185/
 
 Learn more about the developer: https://www.linkedin.com/in/claire-tasler/
 
