@@ -52,8 +52,6 @@ def show_login_page():
 def login_user():
     username = request.json.get("username")
     session["username"] = username
-    print(session["username"])
-    
     user_id = crud.get_user_id(username)
     if not user_id: 
         crud.create_user(username)
@@ -63,10 +61,8 @@ def login_user():
 @app.route("/check-reservations")
 def check_reservations():
     date = request.args.get('date')
-    print(date)
     user_id = crud.get_user_id(session["username"])
     reservations = crud.get_all_res_by_date(date=date, user_id=user_id)
-    print(reservations)
     if reservations: 
         status = "not_available"
     else: 
@@ -79,9 +75,6 @@ def create_reservation():
     time = request.json.get('time')
     
     user_id = crud.get_user_id(session["username"])
-    print(f"{date}{time}{user_id}")
-    print(type(date))
-    print(type(time))
     crud.create_res(user_id=user_id, res_date=date, res_time=time)
     return jsonify({'result': "successful"})
 

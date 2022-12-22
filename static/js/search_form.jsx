@@ -9,25 +9,35 @@ function Result(props) {
             .then((responseJson) => {
                 const username = responseJson.username;
                 if (username) {
-                    const reservation = {
-                        date: date,
-                        time: props.time, 
-                    }
-        
-                    fetch('/create-reservation', {
-                        method: 'POST',
-                        body: JSON.stringify(reservation),
-                        credentials: 'include',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        }
-                    }) 
+
+                    const date = document.querySelector('#date').value;
+                    fetch(`/check-reservations?date=${date}`)
                     .then((response) => response.json())
                     .then((responseJson) => {
-                        if (responseJson.result == "successful") {
-                            alert('reservation was created')
+                        if (responseJson.data == "not_available") {
+                            alert('You have already made a reservation on that day. Please choose a different date.')
+                        } else {
+                            const reservation = {
+                                date: date,
+                                time: props.time, 
+                            }
+        
+                            fetch('/create-reservation', {
+                                method: 'POST',
+                                body: JSON.stringify(reservation),
+                                credentials: 'include',
+                                headers: {
+                                'Content-Type': 'application/json',
+                                }
+                            }) 
+                            .then((response) => response.json())
+                            .then((responseJson) => {
+                                if (responseJson.result == "successful") {
+                                    alert('reservation was created')
+                                }
+                            }) 
                         }
-                    })
+                    }) 
                 } else {
                     alert('you must be logged in to make a reservation')
                 }
@@ -39,7 +49,7 @@ function Result(props) {
         <div>
             <div className="flex-cont">
                 <p>{props.time}</p>
-                <button onClick={reserveHandler}>Reserve</button>
+                <button type="button" id="reserve-btn" className="btn btn-outline-success" onClick={reserveHandler}>Reserve</button>
             </div>
         </div>
     )
@@ -57,7 +67,6 @@ function SearchForm() {
 
     const submitHandler = (event) => {
         event.preventDefault();
-        console.log(data)
         const start = document.querySelector('#start').value
         const end = document.querySelector('#end').value
         
@@ -68,8 +77,6 @@ function SearchForm() {
             fetch(`/check-reservations?date=${date}`)
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log(responseJson)
-                console.log(responseJson.data)
                 if (responseJson.data == "not_available") {
                     alert('You have already made a reservation on that day. Please choose a different date.')
                 } else {
@@ -115,7 +122,9 @@ function SearchForm() {
                     <input id="start" type="time" name="start-time" onChange={changeHandler}/>
                     <label htmlFor="end-time">End Time: </label>
                     <input id="end" type="time" name="end-time" onChange={changeHandler}/>
-                    <input type="submit" onClick={submitHandler}></input>
+                    <div>
+                        <input id="search-btn" className="btn btn-success" type="submit" onClick={submitHandler}/>
+                    </div>
                 </form>
             </div>
             <div>
