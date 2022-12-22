@@ -18,7 +18,9 @@ and CSS.
     * `pip install -r requirements.txt`
 
 2. Set up database: 
+    * uncomment lines 6-7 in model.py then run the following command: 
     * `python model.py`
+    * comment out lines 6-7 again. Don't forget to save. 
 
 4. Start up the flask server: 
     * `python server.py` 
